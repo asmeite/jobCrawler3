@@ -1,0 +1,7 @@
+POST http://127.0.0.1:8000/crawl/
+
+Content-Type: application/json
+{            "ville":"paris",            
+             "jobtitre":"Data",
+             "dis tance": "20"  
+}

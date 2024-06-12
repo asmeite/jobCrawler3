@@ -1,0 +1,28 @@
+<!-- jobs/templates/job_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+</head>
+<body>
+    <h1>Job Listings</h1>
+    <form method="GET">
+        <input type="text" name="sector" placeholder="Sector" value="{{ request.GET.sector }}">
+        <input type="text" name="location" placeholder="Location" value="{{ request.GET.location }}">
+        <input type="text" name="title" placeholder="Job Title" value="{{ request.GET.title }}">
+        <button type="submit">Filter</button>
+    </form>
+    <ul>
+        {% for job in jobs %}
+        <li>
+            <a href="{{ job.url }}" target="_blank">{{ job.title }}</a> at {{ job.company }} in {{ job.location }}
+            <p>{{ job.description }}</p>
+            <p>Date Posted: {{ job.date_posted }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
