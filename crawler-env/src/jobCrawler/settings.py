@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 import dotenv
 
-dotenv.load_dotenv()
+dotenv.read_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
