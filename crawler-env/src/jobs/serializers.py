@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import UserJobs
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -15,3 +16,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+
+class UserJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserJobs
+        fields = ['id', 'id_user', 'job_title', 'description', 'location', 'link']

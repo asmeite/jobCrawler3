@@ -7,8 +7,12 @@ from .crawler import scrape_and_save_jobs
 import json
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import status
 from django.contrib.auth.models import User
 from .serializers import RegisterSerializer
+from .serializers import UserJobSerializer
+from .models import UserJobs
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
@@ -73,3 +77,17 @@ def get_all_jobs(request):
         job_data.append(job_object)
     
     return JsonResponse(job_data, safe=False, status=200)
+
+@api_view(['GET'])
+def get_user_jobs(request):
+    user_jobs = UserJobs.objects.all()
+    serializer = UserJobSerializer(user_jobs, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def create_user_job(request):
+    serializer = UserJobSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
