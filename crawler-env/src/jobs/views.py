@@ -6,8 +6,22 @@ from .models import Job
 from .crawler import scrape_and_save_jobs
 import json
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+
+
 
 @csrf_exempt
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def crawl_jobs_view(request):
     if request.method == 'POST':
         try:
@@ -44,6 +58,8 @@ def crawl_jobs_view(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 @csrf_exempt
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_all_jobs(request):
     jobs = Job.objects.all()
     job_data = []

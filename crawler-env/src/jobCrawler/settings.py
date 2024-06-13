@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from datetime import timedelta
 import dotenv
 
 dotenv.read_dotenv()
@@ -37,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'jobs',
-    'rest_framework.authtoken'
+    'rest_framework_simplejwt',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +52,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+# ou 
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # URL du frontend
+#     "https://frontend.com",
+# ]
 
 ROOT_URLCONF = 'jobCrawler.urls'
 
@@ -72,11 +82,19 @@ WSGI_APPLICATION = 'jobCrawler.wsgi.application'
 
 # pour le token
 REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'utils.custom_exception_handler.custom_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    )
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ("rest_framework_simplejwt.tokens.AccessToken", ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
