@@ -42,10 +42,10 @@ def scrape_and_save_jobs(ville, jobtitre, distance):
             company = scrapCompagnie(a_tag.get('href'))
             job_companies.append(company)
     jobs_data = {
-        'Titles': job_titles,
-        'Links': job_links,
-        'Descriptions': job_descriptions,
-        'Companies': job_companies
+        'Title': job_titles,
+        'Link': job_links,
+        'Description': job_descriptions,
+        'Company': job_companies
     }
     return jobs_data
            

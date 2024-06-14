@@ -11,5 +11,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/', RegisterView.as_view(), name='register'),
-
+    path('api/user_jobs/', views.get_favorite_user_jobs, name='get_favoriteuser_jobs'),
+    path('api/user_jobs/favorite/', views.favorite_user_job, name='favorite_user_job'),
+    path('api/user/update/', views.update_user, name='update_user'),
 ]
